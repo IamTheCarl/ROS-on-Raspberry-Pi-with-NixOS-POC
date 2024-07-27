@@ -1,4 +1,8 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs,  ... }:
+let
+  # Obtain ROS overlays
+  ros = import (fetchTarball "https://github.com/lopsided98/nix-ros-overlay/archive/master.tar.gz") { };
+in
 {
   system.stateVersion = "24.04";
 
@@ -20,8 +24,13 @@
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfho5osxu8sQFfOLJoehHL2gNBmHoo8Wvc1wlg1VRHYnrE4REbAB+pB/GfYJkY3UCOw2xYoE9rCnYYYt1jbZ6T/VEEnHh4j4qGAT2OdB+2eH1il9OrfxSf9lvu+1Q6y0FSOO8uhKH5LY+I/6a0y8zKs9m20DybQOz8ntIcWnruxQMvq6dCuweKkeko6INvq6H8edYxlpCJQtk88VLtB+s9+f74JpUmsTEdbP8HY8uzqyZz505lZofBSg2uQKwFplg92hL2jQzQrWYYldbNhg0WYyQAf9Mk+9//lph5HaBUq2FUTVzdzvswK9WTniH5rUFbZJTHtvynXzf+jZFl5JybBWJ7xU2l6Kov9AlFe3C+RQ9IhAlgxajy57zwTNekm13S99L7P7ddtRcfF7knSWo7QbbpSw3q9/6PuA4vxr7KvbnT9PgUPJ7Rtu2/9Hf9Rm9hvKKr+HE3T2SdrzcdkSuANwiUfYCSgMmUCZi6ACKl1zSsXRg6eFpK5EyxC5hu1A8="
 ];
 
+
   # Install system packages.
-  environment.systemPackages = with pkgs; [
-    vim
+  environment.systemPackages = [
+    pkgs.vim
+    ros.pkgs.colcon
+    ros.rosPackages.humble.ros-base
+    ros.rosPackages.humble.ros-core
+    ros.rosPackages.humble.geometry-msgs
   ];
 }
