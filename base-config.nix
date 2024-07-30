@@ -26,11 +26,16 @@ in
 
 
   # Install system packages.
-  environment.systemPackages = [
-    pkgs.vim
-    ros.pkgs.colcon
-    ros.rosPackages.humble.ros-base
-    ros.rosPackages.humble.ros-core
-    ros.rosPackages.humble.geometry-msgs
+  environment.systemPackages = [ 
+    (ros.rosPackages.humble.buildEnv {
+    name = "ros_env";
+    paths = [
+      pkgs.vim
+      ros.rosPackages.humble.ros-core
+      ros.rosPackages.humble.ros2cli
+      ros.rosPackages.humble.ros2cli
+      ros.pkgs.colcon
+    ];
+  })
   ];
 }
