@@ -27,15 +27,6 @@ in
 
   # Install system packages.
   environment.systemPackages = [ 
-    (ros.rosPackages.humble.buildEnv {
-    name = "ros_env";
-    paths = [
-      pkgs.vim
-      ros.rosPackages.humble.ros-core
-      ros.rosPackages.humble.ros2cli
-      ros.rosPackages.humble.ros2cli
-      ros.pkgs.colcon
-    ];
-  })
+    (import ./environment.nix {})
   ];
 }
