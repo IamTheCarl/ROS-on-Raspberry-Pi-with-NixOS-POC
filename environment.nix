@@ -6,7 +6,5 @@ in
   paths = [
     pkgs.vim
     ros.rosPackages.humble.ros-core
-    ros.rosPackages.humble.ros2cli
-    ros.pkgs.colcon
   ];
 })
