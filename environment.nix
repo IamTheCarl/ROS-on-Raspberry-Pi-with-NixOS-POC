@@ -1,7 +1,6 @@
 { pkgs ? import <nixpkgs> {} }:
 let
-  # Obtain ROS overlays
-  ros = import (fetchTarball "https://github.com/lopsided98/nix-ros-overlay/archive/master.tar.gz") { };
+  ros = import ./ros.nix {};
 in
 (ros.rosPackages.humble.buildEnv {
   paths = [
