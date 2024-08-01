@@ -1,0 +1,11 @@
+string voice_name
+string text
+
+string DEFAULT_VOICE="en_US-hfc_male-medium"
+---
+uint32 result
+
+uint32 SUCCESS = 0
+uint32 VOICE_NOT_FOUND = 1
+uint32 AUDIO_GENERATION_FAILURE = 2
+uint32 PLAYBACK_FAILURE = 3
