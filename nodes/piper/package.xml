@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>piper</name>
+  <version>0.0.0</version>
+  <description>Provides Piper voice synthsis as a ROS service</description>
+  <maintainer email="jamescarl96@gmail.com">thecarl</maintainer>
+  <license>MIT</license>
+
+  <exec_depend>piper_interface</exec_depend>
+  <exec_depend>en_US-hfc_male-medium</exec_depend>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
