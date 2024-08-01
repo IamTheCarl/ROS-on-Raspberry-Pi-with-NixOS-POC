@@ -6,5 +6,6 @@ in
   paths = [
     pkgs.vim
     ros.rosPackages.humble.ros-core
+    (import ./nodes/piper {})
   ];
 })
