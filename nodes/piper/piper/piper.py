@@ -4,12 +4,14 @@ import rclpy
 from rclpy.node import Node
 from piper_interface.srv import Speak 
 import subprocess
+import os
 
 class Piper(Node):
     def __init__(self):
         super().__init__('piper')
         self.speak_service = self.create_service(Speak, 'speak', self.speak)
         self.get_logger().info("Service started.")
+        self.get_logger().info("Environmtn: {}".format(os.environ))
 
     def speak(self, request, response):
         self.get_logger().info("Speak ({}): {}".format(request.voice_name, request.text))

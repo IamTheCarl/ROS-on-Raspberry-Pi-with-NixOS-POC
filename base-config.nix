@@ -1,6 +1,8 @@
 { lib, pkgs,  ... }:
 let
-  ros = import ./ros.nix {};
+  ros = import ./ros.nix {}; 
+  voice_model = (import ./nodes/piper/voice_models/en_US-hfc_male-medium/default.nix {});
+  piper = (import ./nodes/piper {});
 in
 {
   system.stateVersion = "24.04";
@@ -23,9 +25,45 @@ in
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfho5osxu8sQFfOLJoehHL2gNBmHoo8Wvc1wlg1VRHYnrE4REbAB+pB/GfYJkY3UCOw2xYoE9rCnYYYt1jbZ6T/VEEnHh4j4qGAT2OdB+2eH1il9OrfxSf9lvu+1Q6y0FSOO8uhKH5LY+I/6a0y8zKs9m20DybQOz8ntIcWnruxQMvq6dCuweKkeko6INvq6H8edYxlpCJQtk88VLtB+s9+f74JpUmsTEdbP8HY8uzqyZz505lZofBSg2uQKwFplg92hL2jQzQrWYYldbNhg0WYyQAf9Mk+9//lph5HaBUq2FUTVzdzvswK9WTniH5rUFbZJTHtvynXzf+jZFl5JybBWJ7xU2l6Kov9AlFe3C+RQ9IhAlgxajy57zwTNekm13S99L7P7ddtRcfF7knSWo7QbbpSw3q9/6PuA4vxr7KvbnT9PgUPJ7Rtu2/9Hf9Rm9hvKKr+HE3T2SdrzcdkSuANwiUfYCSgMmUCZi6ACKl1zSsXRg6eFpK5EyxC5hu1A8="
 ];
 
+  imports = let
+    nix-ros-overlay = builtins.fetchTarball {
+      url = https://github.com/lopsided98/nix-ros-overlay/archive/69219f8f35e5ae08e4ccff256529355744bc06ba.tar.gz;
+      sha256 = "146nng97pgplv703y18y30ybl4z9zdj9sr7c4jiyalhgl7jcwvsj";
+    };
+  in [ (nix-ros-overlay + "/modules") ];
 
   # Install system packages.
-  environment.systemPackages = [ 
+  environment.systemPackages = [
+    pkgs.vim
+    # voice_model
     (import ./environment.nix {})
+    #piper
   ];
+
+  # Systemd modules
+  # systemd.services.piper = {
+  #   enable = true;
+  #   description = "Piper speech node";
+# #    environment.XDG_DATA_DIR = "${voice_model}/share/";
+  #   serviceConfig = {
+  #     ExecStart = "/run/current-system/sw/bin/ros2 run piper piper";
+  #   };
+  #   wantedBy = [ "multi-user.target" ];
+  # };
+
+  # services.ros2 = {
+  #   enable = true;
+  #   distro = "humble";
+  #   domainId = 0;
+  #   nodes = {
+  #     piper = {
+  #       package = piper.pname;
+  #       env = (import ./environment.nix {});
+  #       node = "piper";
+  #       args = [];
+  #       rosArgs = [];
+  #       params = {};
+  #     };
+  #   };
+  # };
 }

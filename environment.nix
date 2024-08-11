@@ -1,11 +1,15 @@
-{ pkgs ? import <nixpkgs> {} }:
+{}:
 let
-  ros = import ./ros.nix {};
+  pkgs = import ./ros.nix {};
 in
-(ros.rosPackages.humble.buildEnv {
-  paths = [
-    pkgs.vim
-    ros.rosPackages.humble.ros-core
-    (import ./nodes/piper {})
-  ];
+(pkgs.rosPackages.humble.buildROSWorkspace  {
+  name = "autonomy";
+  devPackages = {
+    inherit
+      (import ./nodes/piper {});
+  };
+  prebuiltPackages = {
+    inherit
+      (pkgs.rosPackages.humble.ros-core);
+  };
 })
